@@ -1,10 +1,11 @@
 <script lang="ts">
+	import MiniCardListItem from '../../../entities/mini-card-list-item/mini-card-list-item.svelte';
 	import { BucketName } from '../../../shared/enums/bucket-name.enum';
 	import { onHandleDownload } from '../../../shared/lib/handle-download';
 	import { supabase } from '../../../shared/lib/supabase-client';
 	import type { FileObject } from '../types/file-object.type';
 	import ItemLoading from './item-loading.svelte';
-	import ListItem from './list-item.svelte';
+	let loadingDownload = false;
 
 	export let listOfFiles: FileObject[] = [];
 	let loading = false;
@@ -24,12 +25,15 @@
 	fetchFiles();
 
 	const handleDownload = async (item: FileObject) => {
-		onHandleDownload(item, BucketName.upload_csv);
+		loadingDownload = true;
+		onHandleDownload(item, BucketName.upload_csv).then(() => {
+			loadingDownload = false;
+		});
 	};
 </script>
 
 <div class="root">
-	<h3>Upload CSV</h3>
+	<h3>Uploaded CSV</h3>
 	{#if loading}
 		<ItemLoading />
 	{/if}
@@ -37,12 +41,18 @@
 		<slot name="no-data" />
 	{/if}
 	{#if listOfFiles.length > 0 && !loading}
-		<ListItem {listOfFiles} {handleDownload} />
+		<MiniCardListItem {listOfFiles} {handleDownload} {loadingDownload} />
 	{/if}
 </div>
 
 <style lang="postcss">
 	.root {
 		width: 50%;
+	}
+
+	@media (max-width: 730px) {
+		.root {
+			width: 100%;
+		}
 	}
 </style>

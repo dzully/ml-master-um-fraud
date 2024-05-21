@@ -66,21 +66,22 @@
 
 <style lang="postcss">
 	.loading-root {
+		background-color: gainsboro;
+		border-color: #9984c0;
 		border-radius: 5px;
 		border-style: dotted;
-		border-color: gray;
 		cursor: pointer;
-		height: 400px;
+		height: 200px;
 		min-width: 40%;
 		text-align: center;
-		background-color: gainsboro;
 	}
 
 	.root {
+		border-color: #9984c0;
 		border-radius: 5px;
 		border-style: dotted;
 		cursor: pointer;
-		height: 400px;
+		height: 200px;
 		min-width: 40%;
 		text-align: center;
 	}

@@ -7,8 +7,10 @@
 </div>
 
 <style lang="postcss">
+	@import url('https://fonts.googleapis.com/css2?family=Jacquard+12&display=swap');
 	:global(html) {
 		background-color: theme(colors.gray.100);
+		font-family: 'Roboto', sans-serif;
 	}
 
 	.global {

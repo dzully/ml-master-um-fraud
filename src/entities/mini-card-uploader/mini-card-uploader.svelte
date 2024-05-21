@@ -36,4 +36,11 @@
 		display: flex;
 		gap: 50px;
 	}
+
+	@media (max-width: 730px) {
+		.list-container {
+			flex-direction: column;
+			gap: 10px;
+		}
+	}
 </style>
