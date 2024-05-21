@@ -1,8 +1,15 @@
+<script lang="ts">
+	import Home from '../widget/home.svelte';
+	import { createClient } from '@supabase/supabase-js';
+
+	const supabase = createClient(
+		import.meta.env.VITE_SUPABASE_URL,
+		import.meta.env.VITE_SUPABASE_KEY
+	);
+</script>
+
 <div class="global">
-	<div class="p-4 bg-white rounded-lg shadow-lg">
-		<h1 class="text-2xl font-bold">Machine Learning</h1>
-		<p class="mt-2 text-gray-600">Fraud Analysis by Group 1</p>
-	</div>
+	<Home />
 </div>
 
 <style lang="postcss">
@@ -11,10 +18,9 @@
 	}
 
 	.global {
+		background-color: #f2f2ff;
 		position: fixed;
 		inset: 0;
 		display: flex;
-		justify-content: center;
-		align-items: center;
 	}
 </style>
