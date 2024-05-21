@@ -43,6 +43,6 @@
 
 <style lang="postcss">
 	.root {
-		width: 100%;
+		width: 50%;
 	}
 </style>

@@ -45,7 +45,6 @@
 		list-style-type: none;
 		margin: 0;
 		padding: 0;
-		width: 100%;
 	}
 
 	li {
@@ -57,14 +56,15 @@
 	}
 
 	.list-item-content {
-		width: 100%;
 		display: flex;
 		gap: 10px;
+		width: 80%;
 	}
 
 	.list-item-title {
 		font-weight: bold;
 		font-size: large;
+		word-wrap: break-word;
 	}
 
 	.list-item-text-container {
@@ -72,6 +72,7 @@
 		flex-direction: column;
 		gap: 5px;
 		justify-content: center;
+		width: 80%;
 	}
 
 	.list-item-description {
@@ -90,6 +91,8 @@
 	.list-item-action {
 		display: flex;
 		place-items: center;
+		width: 20%;
+		justify-content: flex-end;
 	}
 
 	.list-item-action-button {

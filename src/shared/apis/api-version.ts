@@ -1,1 +1,3 @@
-export const API_VERSION = import.meta.env.VITE_API_VERSION as string;
+import { appEnv } from '../config/app-env';
+
+export const API_VERSION = appEnv.VITE_API_VERSION;
