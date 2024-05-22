@@ -2,12 +2,15 @@
 	import axios from 'redaxios';
 	import uploadIconGray from '../../assets/upload-icon-gray.svg';
 	import uploadIcon from '../../assets/upload-icon.svg';
-	import { endpoint } from '../../shared/apis/endpoint';
+	import { BaseUrl } from '../../shared/apis/base-url';
 	import { BucketName } from '../../shared/enums/bucket-name.enum';
+	import { Endpoint } from '../../shared/enums/endpoint.enum';
 	import { supabase } from '../../shared/lib/supabase-client';
+	import ErrorSnackbar from '../../shared/ui/error-snackbar/error-snackbar.svelte';
 
 	let loading = false;
 	let isDragOver = false;
+	let errorSnackbar: string = '';
 	export let refreshComponent: () => void;
 
 	async function uploadToServer(file: File) {
@@ -25,10 +28,31 @@
 		}
 
 		if (data) {
-			const response = axios.post(`${endpoint}/${data.path}`).then(() => {
-				loading = false;
-				refreshComponent();
-			});
+			const handleRemoveFile = async (fileName: string) => {
+				const { error } = await supabase.storage.from(BucketName.upload_csv).remove([fileName]);
+				if (error) {
+					console.error(error);
+				}
+			};
+
+			axios
+				.post(`${BaseUrl}/${Endpoint.uploadLocal}`, {
+					fileName: data.path
+				})
+				.then(() => {
+					refreshComponent();
+				})
+				.catch(() => {
+					errorSnackbar = 'Failed to upload the file';
+					handleRemoveFile(fileName);
+
+					setTimeout(() => {
+						errorSnackbar = '';
+					}, 3000);
+				})
+				.finally(() => {
+					loading = false;
+				});
 		}
 	}
 
@@ -74,6 +98,10 @@
 	function handleDragOver(event: DragEvent) {
 		event.preventDefault();
 	}
+
+	function onHandleClose() {
+		errorSnackbar = '';
+	}
 </script>
 
 <div class={loading ? 'loading-root' : 'root'}>
@@ -95,6 +123,9 @@
 			{/if}
 		</div>
 	</button>
+	{#if errorSnackbar}
+		<ErrorSnackbar {onHandleClose} error={errorSnackbar} />
+	{/if}
 </div>
 
 <style lang="postcss">
