@@ -7,6 +7,7 @@
 	import { supabase } from '../../shared/lib/supabase-client';
 
 	let loading = false;
+	let isDragOver = false;
 	export let refreshComponent: () => void;
 
 	async function uploadToServer(file: File) {
@@ -46,19 +47,51 @@
 		};
 
 		input.oncancel = () => {
+			isDragOver = false;
 			loading = false;
 		};
+	}
+
+	function handleDragEnter(event: DragEvent) {
+		event.preventDefault();
+		isDragOver = true;
+	}
+
+	function handleDragLeave(event: DragEvent) {
+		event.preventDefault();
+		isDragOver = false;
+	}
+
+	function handleDrop(event: DragEvent) {
+		event.preventDefault();
+		if (loading) return;
+		const file = event.dataTransfer?.files[0];
+		if (!file) return;
+		loading = true;
+		uploadToServer(file);
+	}
+
+	function handleDragOver(event: DragEvent) {
+		event.preventDefault();
 	}
 </script>
 
 <div class={loading ? 'loading-root' : 'root'}>
-	<button on:click={UploadFile} class="button-container" disabled={loading}>
+	<button
+		class="button-container {isDragOver ? 'drag-over' : ''}"
+		disabled={loading}
+		on:click={UploadFile}
+		on:dragenter={handleDragEnter}
+		on:dragleave={handleDragLeave}
+		on:dragover={handleDragOver}
+		on:drop={handleDrop}
+	>
 		<img class="upload-icon" src={loading ? uploadIconGray : uploadIcon} alt="upload icon" />
 		<div class={loading ? 'loading-content' : 'content'}>
 			{#if loading}
 				Uploading file...
 			{:else}
-				Please click here to upload file
+				Please click or drag and drop a file here
 			{/if}
 		</div>
 	</button>
@@ -111,5 +144,13 @@
 		padding: 20px;
 		width: 100%;
 		background-color: unset;
+	}
+
+	.button-container:hover {
+		background-color: #e6e6fe;
+	}
+
+	.button-container.drag-over {
+		background-color: #e6e6fe;
 	}
 </style>
