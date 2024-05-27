@@ -3,6 +3,8 @@
 </script>
 
 <div class="root">
+	<slot name="navigator" />
+	<slot name="introduction" />
 	<slot name="header" />
 	<div class="content">
 		<slot name="uploader" />

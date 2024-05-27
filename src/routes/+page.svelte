@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Home from '../widget/home.svelte';
+	import Home from '../widget/home/home.svelte';
 </script>
 
 <div class="global">

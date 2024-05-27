@@ -1,6 +1,10 @@
+<script>
+	export let title = 'or';
+</script>
+
 <div class="root">
 	<hr />
-	<span>or</span>
+	<span class="title">{title}</span>
 	<hr />
 </div>
 
@@ -20,5 +24,13 @@
 
 	span {
 		color: black;
+	}
+
+	.title {
+		line-height: 1.3333;
+		color: #4c4c4c;
+		font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+		font-weight: 400;
+		letter-spacing: 0.0075em;
 	}
 </style>
